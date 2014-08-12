@@ -1,0 +1,7 @@
+{
+    "name": "nickmoline/actd-transcripts",
+    "version": "1.0.0",
+    "require": {
+        "twig/twig": "1.*"
+    }
+}
