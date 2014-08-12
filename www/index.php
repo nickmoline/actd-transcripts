@@ -5,12 +5,11 @@ require_once("{$base_folder}/vendor/autoload.php");
 Twig_Autoloader::register();
 setlocale(LC_ALL, "en_US.UTF-8");
 
-
-
 $twig_loader = new Twig_Loader_Filesystem("{$base_folder}/templates/");
 $twig = new Twig_Environment($twig_loader,
     array(
-        "autoescape"    =>  false,    
+        "autoescape"    =>  false,
+        "cache"         =>  "{$base_folder}/templates/cache/"
     )
 );
 
