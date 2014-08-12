@@ -1,0 +1,36 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial,sans-serif;
+}
+.chatline {
+    margin-bottom: 10px;
+}
+.command {
+    color: #BA0808;
+}
+.who {
+    font-weight: bold;
+}
+.tactical, .engineering {
+    color: #D89700;
+}
+.medical, .science {
+    color: #1E848D;
+}
+.civilian {
+    color: #393939;
+}
+
+.chatline p {
+    padding-top: 0px;
+    padding-bottom: 10px;
+    margin: 0;
+}
+.divider_message {
+    font-weight: bold;
+    text-align: center;
+    font-style: italic;
+    border-top: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
+    padding: 10px;
+    margin: 10px;
+}
