@@ -1,9 +1,11 @@
 <?php
-require_once(dirname(__FILE__)."/vendor/autoload.php");
+$base_folder = dirname(dirname(__FILE__));
+require_once("{$base_folder}/vendor/autoload.php");
+
 Twig_Autoloader::register();
 setlocale(LC_ALL, "en_US.UTF-8");
 
-$base_folder = dirname(__FILE__);
+
 
 $twig_loader = new Twig_Loader_Filesystem("{$base_folder}/templates/");
 $twig = new Twig_Environment($twig_loader,
