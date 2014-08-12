@@ -1,9 +1,9 @@
 <?php
+setlocale(LC_ALL, "en_US.UTF-8");
 $base_folder = dirname(dirname(__FILE__));
 require_once("{$base_folder}/vendor/autoload.php");
 
 Twig_Autoloader::register();
-setlocale(LC_ALL, "en_US.UTF-8");
 
 $twig_loader = new Twig_Loader_Filesystem("{$base_folder}/templates/");
 $twig = new Twig_Environment($twig_loader,
@@ -23,6 +23,7 @@ $file_date_string = date("Ymd",$date_ts);
 
 $infolder = "{$base_folder}/log/";
 $outfolder = "{$base_folder}/output/";
+
 
 $base_in_filename = "#ST_StationMissions_";
 
@@ -164,7 +165,6 @@ if ($arc_title) {
     }
     
 }
-
 
 echo $twig->render("index.twig", 
     array(
