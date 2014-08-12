@@ -4,6 +4,15 @@ log/
 transcripts.zip
 output/
 .c9/
+sftp-config.json
+*.sublime-project
+*.sublime-workspace
+*.sublime-projectcompletions
+.c9revisions
+*.DS_Store
+sftp-config*.json
+
+
 
 # Commit your application's lock file http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file
 # You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
