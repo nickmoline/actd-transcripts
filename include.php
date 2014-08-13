@@ -125,18 +125,81 @@ function jcommon_transliterate_string($string) {
 }
 
 function jcommon_normalize_string($string) {
-    $string = html_entity_decode($string,ENT_COMPAT,'UTF-8');
-    return mb_convert_encoding($string, 'HTML-ENTITIES', 'auto');
+	$string = html_entity_decode($string,ENT_COMPAT,'UTF-8');
+	return mb_convert_encoding($string, 'HTML-ENTITIES', 'auto');
+}
+
+function convert_roman_numeral($roman) {
+	$romans = array(
+		'M' => 1000,
+		'CM' => 900,
+		'D' => 500,
+		'CD' => 400,
+		'C' => 100,
+		'XC' => 90,
+		'L' => 50,
+		'XL' => 40,
+		'X' => 10,
+		'IX' => 9,
+		'V' => 5,
+		'IV' => 4,
+		'I' => 1,
+	);
+
+	$result = 0;
+
+	foreach ($romans as $key => $value) {
+		while (strpos($roman, $key) === 0) {
+			$result += $value;
+			$roman = substr($roman, strlen($key));
+		}
+	}
+	return $result;
+}
+
+function convert_int_to_roman($num) {
+	$n = intval($num); 
+	$res = ''; 
+
+	/*** roman_numerals array  ***/ 
+	$roman_numerals = array( 
+		'M'  => 1000, 
+		'CM' => 900, 
+		'D'  => 500, 
+		'CD' => 400, 
+		'C'  => 100, 
+		'XC' => 90, 
+		'L'  => 50, 
+		'XL' => 40, 
+		'X'  => 10, 
+		'IX' => 9, 
+		'V'  => 5, 
+		'IV' => 4, 
+		'I'  => 1); 
+
+	foreach ($roman_numerals as $roman => $number){ 
+		/*** divide to get  matches ***/ 
+		$matches = intval($n / $number); 
+
+		/*** assign the roman char * $matches ***/ 
+		$res .= str_repeat($roman, $matches); 
+
+		/*** substract from the number ***/ 
+		$n = $n % $number; 
+	} 
+
+	/*** return the res ***/ 
+	return $res; 
 }
 
 function get_transcript_list($folder, $default_date_raw = null) {
-    if (!$default_date_raw) $default_date_raw = jcheck_get('date');
+	if (!$default_date_raw) $default_date_raw = jcheck_get('date');
 
-    $transcript_list = array();
+	$transcript_list = array();
 
-    $default_date = date("Y-m-d",strtotime($default_date_raw));
+	$default_date = date("Y-m-d",strtotime($default_date_raw));
 
-    if (is_dir($folder)) {
+	if (is_dir($folder)) {
 		if ($dh = opendir($folder)) {
 			while (($file = readdir($dh)) !== false) {
 				if (preg_match("@#ST_StationMissions_(\d{4})(\d{2})(\d{2}).log@msi", $file, $file_match)) {

@@ -1,0 +1,9 @@
+<div id="npc_block" class="attendance_block">
+    <h4>Guest Appearances By (<em>in order of appearance</em>):</h4>
+    
+    <ul>
+        {% for user in npcs %}
+            <li class="{{ user.position }} {{ user.name }}">{{ user.top_display_name }} ({{ user.lines }} lines)</li>
+        {% endfor %}
+    </ul>
+</div>

@@ -1,8 +1,8 @@
-<div id="attendance_block" class="attendance_block">
+<div id="starring_block" class="attendance_block">
     <h4>Starring (<em>in order of appearance</em>):</h4>
     
     <ul>
-        {% for user in attendance %}
+        {% for user in starring %}
             <li class="{{ user.position }} {{ user.name }}">{{ user.display_name }} ({{ user.lines }} lines)</li>
         {% endfor %}
     </ul>

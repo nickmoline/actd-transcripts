@@ -101,7 +101,7 @@ foreach ($raw_lines as $key => $line) {
 
 		$encoded_message    = str_replace(array('<','>'),array('&lt;','&gt;'), $normalized_message);
 		
-		if (preg_match('@^<([A-Za-z0-9\-\_\s]+)>[:\s]*(.+)$@msi', trim($raw_message), $npc_match)) {
+		if (preg_match('@^<([A-Za-z0-9\-\_\s\']+)>[:\s]*(.+)$@msi', jcommon_transliterate_string(trim($raw_message)), $npc_match)) {
 			$npc_who = "npc_".jcommon_friendlyize($npc_match[1],"_").'_'.jcommon_friendlyize($who,'_');
 			$npc_name_parts = preg_split('@[^A-Za-z0-9\']+@msi', $npc_match[1]);
 			
@@ -112,10 +112,11 @@ foreach ($raw_lines as $key => $line) {
 			$npc_formatted_name = implode(" ", $npc_name_parts);
 			if (!isset($attendance[$npc_who])) {
 				$attendance[$npc_who] = array(
-					"name"			=>	$npc_who,
-					"display_name"	=>	"{$npc_formatted_name} ({$formatted_name})",
-					"position"		=>	$position,
-					"lines"			=>	0,
+					"name"				=>	$npc_who,
+					"display_name"		=>	"{$npc_formatted_name} ({$formatted_name})",
+					"top_display_name"	=>	"{$formatted_name} as {$npc_formatted_name}",
+					"position"			=>	$position,
+					"lines"				=>	0,
 				);
 			}
 			$who = $npc_who;
@@ -149,15 +150,15 @@ foreach ($raw_lines as $key => $line) {
 			$new_raw_message = jcommon_normalize_string(jcommon_transliterate_string($divider_message_match[1]));
 			$encoded_message = str_replace(array('<','>'),array('&lt;','&gt;'), $new_raw_message);
 
-			if (preg_match("@[\"\']([^\'\"]+)[\"\']\s*\-*\s*Episode\s*([\dIVXLCDM]+)@msi", $new_raw_message, $begin_line_matches)) {
+			if (preg_match("@[\"\']([^\'\"]+)[\"\']\s*[\—|\-|\–]*\s*Episode\s*([\dIVXLCDM]+)@msi", $new_raw_message, $begin_line_matches)) {
 				$arc_title = $begin_line_matches[1];
 				$episode_number = $begin_line_matches[2];
 			}
 			
-			$output .= "\t<h4 id=\"line_{$key}_divider_message\" class=\"divider_message\">{$encoded_message}</h4>\n\n";
+			$output .= "\t<h5 id=\"line_{$key}_divider_message\" class=\"divider_message\">{$encoded_message}</h5>\n\n";
 		} else {
-			if (preg_match("@Episode Title: (.*)@msi", $raw_message, $episode_title_match)) {
-				$episode_title = $episode_title_match[1];
+			if (preg_match("@(Episode Title|title of episode|^title)[:\s]*[\"]?([^\"]*)[\"]?@msi", jcommon_transliterate_string($raw_message), $episode_title_match)) {
+				$episode_title = $episode_title_match[2];
 			}
 			$output .=  "\t<p id=\"line_{$key}_message\" class=\"message\">{$encoded_message}</p>\n";
 		}
@@ -181,7 +182,16 @@ $episode_description = array();
 if ($arc_title) {
 	$episode_description[] = "&ldquo;{$arc_title}&rdquo;";
 	if ($episode_number) {
-		$episode_description[] = "Episode {$episode_number}";
+		$episode_number_integer = 0;
+		$episode_number_roman = "";
+		if (is_numeric($episode_number)) {
+			$episode_number_integer = $episode_number;
+			$episode_number_roman = convert_int_to_roman($episode_number_integer);
+		} else {
+			$episode_number_roman = $episode_number;
+			$episode_number_integer = convert_roman_numeral($episode_number_roman);
+		}
+		$episode_description[] = "Episode {$episode_number_roman} ({$episode_number_integer})";
 	}
 	if ($episode_title) {
 		$episode_description[] = "&ldquo;{$episode_title}&rdquo;";
@@ -189,11 +199,28 @@ if ($arc_title) {
 	
 }
 
+$starring = array();
+$npcs = array();
+
+foreach ($attendance as $key => $info) {
+	if (preg_match('@^npc_@msi',$key)) {
+		$npcs[$key] = $info;
+	} else {
+		$starring[$key] = $info;
+	}
+}
+
 echo $twig->render("index.twig", 
 	array(
-		"transcript_list"       =>  $transcript_list,
-		"stardate"              =>  $date_display,
+		"arc_title"					=>	$arc_title,
+		"episode_number_roman"		=>	$episode_number_roman,
+		"episode_number_integer"	=>	$episode_number_integer,
+		"episode_title"				=>	$episode_title,
+		"transcript_list"       	=>  $transcript_list,
+		"stardate"              	=>  $date_display,
 		"attendance"            =>  $attendance,
+		"starring"				=>	$starring,
+		"npcs"					=>	$npcs,
 		"episode_description"   =>  $episode_description,
 		"transcript"            =>  $output,
 	)

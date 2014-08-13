@@ -11,21 +11,29 @@
 
 	<hr />
 
-	<h1>Arcadia Station SB-101 &mdash; Stardate {{ stardate }}</h2>
-	{% if episode_description|length > 0 %}
-		<h2>{{ episode_description|join(' &mdash; ') }}</h2>
+	<h3>Arcadia Station SB&ndash;101</h3>
+
+	{% if arc_title|length %}<h1>{{ arc_title }}</h1>{% endif %}
+	{% if episode_number_roman %}
+		<h2>Episode {{ episode_number_roman }} ({{ episode_number_integer }})
+			{% if episode_title %}&mdash; &ldquo;{{ episode_title }}&rdquo;{% endif %}
+		</h2>
 	{% endif %}
-	
+	<h3>Stardate {{ stardate }}</h3>	
 	<hr />
 	
-	{% if attendance|length > 0 %}
-		{% include 'attendance.twig' %}
+	{% if starring|length > 0 %}
+		{% include 'starring.twig' %}
 	{% endif %}
 	
+	{% if npcs|length > 0 %}
+		{% include 'npcs.twig' %}
+	{% endif %}
+
 	<hr />
 	
 	<div id="transcript_text">
-		<h3>Mission Transcript</h3>
+		<h4 class="transcript_headline">Mission Transcript</h4>
 		
 		{{ transcript }}
 	</div>
