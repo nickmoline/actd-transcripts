@@ -1,28 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Arcadia Transcript Stardate {{ stardate }}</title>
-    <link rel="stylesheet" type="text/css" href="transcripts.css" />
+	<title>Arcadia Transcript Stardate {{ stardate }}</title>
+	<link href='http://fonts.googleapis.com/css?family=Lato:400,700,900,700italic,900italic' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="transcripts.css" />
 </head>
 <body>
-    <h1>Arcadia Station SB-101 &mdash; Stardate {{ stardate }}</h2>
-    {% if episode_description|length > 0 %}
-        <h2>{{ episode_description|join(' &mdash; ') }}</h2>
-    {% endif %}
-    
-    <hr />
-    
-    {% if attendance|length > 0 %}
-        {% include 'attendance.twig' %}
-    {% endif %}
-    
-    <hr />
-    
-    <div id="transcript_text">
-        <h3>Mission Transcript</h3>
-        
-        {{ transcript }}
-    </div>
-    
-    </body>
+	
+{% include 'selector.twig' %}
+
+	<hr />
+
+	<h1>Arcadia Station SB-101 &mdash; Stardate {{ stardate }}</h2>
+	{% if episode_description|length > 0 %}
+		<h2>{{ episode_description|join(' &mdash; ') }}</h2>
+	{% endif %}
+	
+	<hr />
+	
+	{% if attendance|length > 0 %}
+		{% include 'attendance.twig' %}
+	{% endif %}
+	
+	<hr />
+	
+	<div id="transcript_text">
+		<h3>Mission Transcript</h3>
+		
+		{{ transcript }}
+	</div>
+	
+	</body>
 </html>

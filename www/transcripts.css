@@ -1,36 +1,45 @@
 body {
-    font-family: "Helvetica Neue", Helvetica, Arial,sans-serif;
+	font-family: 'Lato', sans-serif;
+}
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+	padding: 0;
+	padding-bottom:5px;
+	text-align:center;
 }
 .chatline {
-    margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 .command {
-    color: #BA0808;
+	color: #BA0808;
 }
 .who {
-    font-weight: bold;
+	font-weight: 900;
 }
 .tactical, .engineering {
-    color: #D89700;
+	color: #D89700;
 }
 .medical, .science {
-    color: #1E848D;
+	color: #1E848D;
 }
 .civilian {
-    color: #393939;
+	color: #393939;
 }
 
 .chatline p {
-    padding-top: 0px;
-    padding-bottom: 10px;
-    margin: 0;
+	padding-top: 0px;
+	padding-bottom: 10px;
+	margin: 0;
 }
 .divider_message {
-    font-weight: bold;
-    text-align: center;
-    font-style: italic;
-    border-top: 1px solid #bbb;
-    border-bottom: 1px solid #bbb;
-    padding: 10px;
-    margin: 10px;
+	font-weight: 900;
+	font-style: italic;
+	border-top: 1px solid #bbb;
+	border-bottom: 1px solid #bbb;
+	padding: 10px;
+	margin: 10px;
+	font-size: 1.2em;
+}
+.selected_transcript {
+	font-weight: bold;
 }

@@ -1,0 +1,11 @@
+<form method="get">
+	<label for="date">Select Raw Transcript:</label>
+	<select name="date" id="date">
+	{% if transcript_list|length > 0 %}
+		{% for tran in transcript_list %}
+		<option value="{{ tran.date }}" {{ tran.selected }}>{{ tran.stardate }} ({{ tran.date }})</option>
+		{% endfor %}
+	{% endif %}
+	</select>
+	<button type="submit">Go</button>
+</form>
