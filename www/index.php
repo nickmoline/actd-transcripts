@@ -162,6 +162,9 @@ foreach ($raw_lines as $key => $line) {
 			}
 			
 			$output .= "\t<h5 id=\"line_{$key}_divider_message\" class=\"divider_message\">{$encoded_message}</h5>\n\n";
+		} elseif (preg_match("@^(ACTION|INFO|SCENE):(.*)$@msi", $raw_message, $sm_activity_match)) {
+			$type = strtolower($sm_activity_match[1]);
+			$output .= "\t<p id=\"line_{$key}_{$type}\" class=\"{$type}\">{$encoded_message}</p>\n";
 		} else {
 			if (preg_match("@(Episode Title|title of episode|^title)[:\s]*[\"]?([^\"]*)[\"]?@msi", jcommon_transliterate_string($raw_message), $episode_title_match)) {
 				$episode_title = $episode_title_match[2];
