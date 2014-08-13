@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Arcadia Transcript Archive</title>
+	<link href='http://fonts.googleapis.com/css?family=Lato:400,700,900,700italic,900italic' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="/archives.css" />
+</head>
+<body>
+
+	<h1>Arcadia Transcripts Archive</h1>
+
+	<table cellspacing="0" cellpadding="0">
+		<thead>
+			<tr>
+				<th>Stardate</th>
+				<th>Real Date</th>
+				<th>Raw</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for transcript in file_list %}
+			<tr>
+				<td><a href="{{ transcript.filename }}">{{ transcript.stardate }}</a></td>
+				<td><a href="{{ transcript.filename }}">{{ transcript.real_date }}</a></td>
+				<td>{% if transcript.raw_link|length > 0 %}<a href="{{ transcript.raw_link }}">Raw</a>{% else %}&nbsp;{% endif %}</td>
+			</tr>
+		{% endfor %}	
+		</tbody>
+	</table>
+	
+</body>
+</html>
