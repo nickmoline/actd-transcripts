@@ -67,6 +67,8 @@ $raw_lines = file($in_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 $transcript_lines = array();
 
 $last_who = "";
+$last_raw_message = "";
+$last_speaker = "";
 
 $output = "";
 
@@ -79,15 +81,20 @@ $episode_title = "";
 foreach ($raw_lines as $key => $line) {
 	// [20:10:27] <CIV_Nyira> ::heads to her office to send a message to the CO letting him know she is available when ever he needs:: 
 	// [19:40:42] <Pira> <landing pad operator> *FCO*: Sorry Ensign, the pilot seems to have had a bit too much to drink at Nyira's, he's passed out on the floor of his shuttle.
+	$output .= "<!-- {$line} -->\n";
 
 	if (preg_match("@^\[(\d+:\d+:\d+)\]\s*<([^>]+)>\s*(.*)$@msi", trim($line), $matches)) {
 		//$output .=  "Found {$key} {$line}\n\n";
 		//print_r($matches);
 		
 		$timestamp      = $matches[1];
-		$who            = $matches[2];
+		$who = $speaker = $matches[2];
 		$raw_message    = $matches[3];
 		
+		if ($speaker == $last_speaker && $raw_message == $last_raw_message) continue;
+		$last_raw_message = $raw_message;
+		$last_speaker = $speaker;
+
 		$position = 'normal';
 		
 		$name_parts = explode("_", $who);
@@ -141,7 +148,6 @@ foreach ($raw_lines as $key => $line) {
 				);
 			}
 		}
-		$output .= "<!-- {$line} -->\n";		
 
 		$attendance[$last_who]['lines']++;	
 
@@ -164,15 +170,6 @@ foreach ($raw_lines as $key => $line) {
 		}
 		
 
-	} else {
-		$output .= "<!-- {$line} -->\n";
-		// if ($last_who) {
-		// 	$output .= "</div>\n\n";
-		// 	$last_who = "";
-		// }
-		// $new_raw_message = jcommon_normalize_string(jcommon_transliterate_string($line));
-		// $encoded_message = str_replace(array('<','>'),array('&lt;','&gt;'), $new_raw_message);
-		// $output .= "<div class=\"raw_transcript_line\">{$encoded_message}</div>\n";
 	}
 }
 $output .=  "</div>\n\n";
