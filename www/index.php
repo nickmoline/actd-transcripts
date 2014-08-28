@@ -37,25 +37,34 @@ $date_display = $transcript_info['stardate'];
 
 $positions = array(
 	"co"        =>  "command",
+	"aco"		=>	"command",
 	"xo"        =>  "command",
+	"axo"		=>	"command",
 	"fco"       =>  "command",
+	"afco"		=>	"command",
 	"regent"    =>  "command",
 	"adm"       =>  "command",
 	"capt"      =>  "command",
 	
 	"cto"       =>  "tactical",
+	"acto"		=>	"tactical",
 	"to"        =>  "tactical",
 	"csec"      =>  "tactical",
+	"sec"		=>	"tactical",
 	
 	"ceo"       =>  "engineering",
+	"aceo"		=>	"engineering",
 	"eo"        =>  "engineering",
 	"ops"       =>  "engineering",
+	"aops"		=>	"engineering",
 	
 	"cmo"       =>  "medical",
+	"acmo"		=>	"medical",
 	"mo"        =>  "medical",
 	"cns"       =>  "medical",
 	
 	"cso"       =>  "science",
+	"acso"		=>	"science",
 	"so"        =>  "science",
 	
 	"civ"       =>  "civilian",
@@ -161,7 +170,17 @@ foreach ($raw_lines as $key => $line) {
 				$episode_number = $begin_line_matches[2];
 			}
 			
-			$output .= "\t<h5 id=\"line_{$key}_divider_message\" class=\"divider_message\">{$encoded_message}</h5>\n\n";
+			if (preg_match("@condition (red|yellow|orange|blue|green)$@msi", strtolower(trim($new_raw_message)), $alert_match)) {
+				$encoded_message = ucwords(strtolower($encoded_message));
+				$output .= "\t<h5 id=\"line_{$key}_alert_message\" class=\"alert alert-{$alert_match[1]}\">{$encoded_message}</h5>\n\n";
+			} elseif (preg_match("@(red|blue|yellow|orange|green) alert@msi", strtolower(trim($new_raw_message)), $alert_match)) {
+				$encoded_message = ucwords(strtolower($encoded_message));
+				$output .= "\t<h5 id=\"line_{$key}_alert_message\" class=\"alert alert-{$alert_match[1]}\">{$encoded_message}</h5>\n\n";
+			} else {
+				$output .= "\t<h5 id=\"line_{$key}_divider_message\" class=\"divider_message\">{$encoded_message}</h5>\n\n";
+			}
+
+			
 		} elseif (preg_match("@^(ACTION|INFO|SCENE):(.*)$@msi", $raw_message, $sm_activity_match)) {
 			$type = strtolower($sm_activity_match[1]);
 			$output .= "\t<p id=\"line_{$key}_{$type}\" class=\"{$type}\">{$encoded_message}</p>\n";

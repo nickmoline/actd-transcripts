@@ -50,3 +50,40 @@ h1, h2, h3, h5, h4.transcript_headline {
 	font-weight: bold;
 	font-style: italic;
 }
+
+.alert {
+	font-weight: bold;
+	font-size: 1.5em;
+	font-variant: small-caps;
+	border: 2px solid #000;
+}
+
+.alert-green {
+	border: 2px solid green;
+	color: green;
+	background-color: #E4FFE4;
+}
+
+.alert-red {
+	border: 2px solid #FF0000;
+	color: #FF0000;
+	background-color: #FAE5E5;
+}
+
+.alert-yellow {
+	border: 2px solid #856A00;
+	color: #856A00;
+	background-color: #FFF8DB;
+}
+
+.alert-orange {
+	border: 2px solid #FFA300;
+	color: #FFA300;
+	background-color: #FFF2DA;
+}
+
+.alert-blue {
+	border: 2px solid #0000FF;
+	color: #0000FF;
+	background-color: #DBDBFF;
+}
